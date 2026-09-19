@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 import api from '../services/api';
 import MenuItemCard from '../components/MenuItemCard';
 import { Star, ShieldAlert, Clock, Award, StarHalf, ChevronRight, Sparkles } from 'lucide-react';
@@ -7,6 +8,7 @@ import { Star, ShieldAlert, Clock, Award, StarHalf, ChevronRight, Sparkles } fro
 const Home = () => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -24,44 +26,8 @@ const Home = () => {
     fetchFeatured();
   }, []);
 
-  const features = [
-    {
-      icon: <Award className="h-8 w-8 text-amber-500" />,
-      title: "Michelin Starred Chefs",
-      description: "Our kitchen is led by award-winning culinary masters crafting French-inspired gastronomy."
-    },
-    {
-      icon: <Sparkles className="h-8 w-8 text-amber-500" />,
-      title: "Fresh Organic Ingredients",
-      description: "Every single dish is prepared daily using locally sourced organic produce and premium meats."
-    },
-    {
-      icon: <Clock className="h-8 w-8 text-amber-500" />,
-      title: "Exquisite Atmosphere",
-      description: "Enjoy fine dining with bespoke acoustic designs, luxury lighting, and attentive service."
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: "Sophia Loren",
-      role: "Gourmet Critic",
-      rating: 5,
-      comment: "The Lobster Bisque here is a absolute masterpiece. The richness, depth of flavor, and silky cream finish is unmatched."
-    },
-    {
-      name: "Marcus Aurelius",
-      role: "Regular Guest",
-      rating: 5,
-      comment: "Sowda restaurent never ceases to amaze me. The Wagyu steak melted like butter, and the service was impeccably professional."
-    },
-    {
-      name: "Elena Rostova",
-      role: "Food Blogger",
-      rating: 4.5,
-      comment: "Stunning interior design, gorgeous glassmorphism details, and highly flavorful food. The Crème Brûlée was perfection!"
-    }
-  ];
+  const features = t('home.features');
+  const testimonials = t('home.testimonials');
 
   return (
     <div className="space-y-24 pb-20">
@@ -78,18 +44,15 @@ const Home = () => {
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
           <div className="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/20 px-4 py-1.5 rounded-full text-xs font-semibold text-amber-500 uppercase tracking-widest animate-bounce">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Exquisite Fine Dining Experience</span>
+            <span>{t('home.heroBadge', 'Exquisite Fine Dining Experience')}</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-serif leading-tight font-extrabold tracking-wide text-white">
-            Where Gastronomy <br />
-            <span className="bg-gradient-to-r from-amber-400 via-gold-500 to-amber-600 bg-clip-text text-transparent">
-              Meets Luxury
-            </span>
+            {t('home.heroTitle', 'Where Gastronomy Meets Luxury')}
           </h1>
 
           <p className="max-w-2xl mx-auto text-lg text-gray-400 font-sans leading-relaxed">
-            Welcome to Sowda restaurent. Immerse your senses in a luxurious culinary journey designed by award-winning French masters.
+            {t('home.heroDescription', 'Welcome to Sowda restaurant. Immerse your senses in a luxurious culinary journey designed by award-winning French masters.')}
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
@@ -97,13 +60,13 @@ const Home = () => {
               to="/reservations"
               className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-gold-500 hover:from-amber-600 hover:to-gold-600 text-charcoal-950 font-bold py-4 px-8 rounded-full shadow-lg shadow-amber-500/20 transition-all transform hover:scale-105 active:scale-95 text-center"
             >
-              Book A Table
+              {t('buttons.bookTable', 'Book A Table')}
             </Link>
             <Link
               to="/ordering"
               className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-amber-500/30 font-semibold py-4 px-8 rounded-full transition-all text-center"
             >
-              Order Online
+              {t('buttons.orderOnline', 'Order Online')}
             </Link>
           </div>
         </div>
@@ -114,7 +77,7 @@ const Home = () => {
         {features.map((feat, idx) => (
           <div key={idx} className="glassmorphism rounded-2xl p-8 border border-white/5 hover:border-amber-500/20 transition-colors space-y-4">
             <div className="bg-amber-500/10 w-14 h-14 rounded-xl flex items-center justify-center">
-              {feat.icon}
+              <Award className="h-8 w-8 text-amber-500" />
             </div>
             <h3 className="font-serif text-xl font-bold text-white">{feat.title}</h3>
             <p className="text-sm text-gray-400 leading-relaxed">{feat.description}</p>
@@ -125,8 +88,8 @@ const Home = () => {
       {/* Featured Dishes Section */}
       <section className="max-w-7xl mx-auto px-6 space-y-12">
         <div className="text-center space-y-4">
-          <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">Chef's Selection</span>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white">Featured Creations</h2>
+          <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">{t('home.chefSelection', "Chef's Selection")}</span>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white">{t('home.featuredTitle', 'Featured Creations')}</h2>
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto"></div>
         </div>
 
@@ -147,7 +110,7 @@ const Home = () => {
             to="/menu"
             className="inline-flex items-center space-x-2 text-amber-500 hover:text-amber-600 font-semibold text-sm group"
           >
-            <span>View Full Menu</span>
+            <span>{t('buttons.viewFullMenu', 'View Full Menu')}</span>
             <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -158,28 +121,27 @@ const Home = () => {
         <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
           <img 
             src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800" 
-            alt="Restaurant Dining Area"
+            alt={t('home.heroImageAlt', 'Restaurant Dining Area')}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/20 to-transparent flex items-end p-6">
-            <p className="text-xs font-medium text-amber-500 tracking-wider">Sowda restaurent Main Salon</p>
+            <p className="text-xs font-medium text-amber-500 tracking-wider">{t('home.heroCaption', 'Sowda restaurant Main Salon')}</p>
           </div>
         </div>
-        
         <div className="space-y-6">
-          <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">The Dining Experience</span>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white leading-tight">Elevating Food To An Art Form</h2>
+          <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">{t('home.diningExperience', 'The Dining Experience')}</span>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white leading-tight">{t('home.experienceTitle', 'Elevating Food To An Art Form')}</h2>
           <p className="text-gray-400 leading-relaxed">
-            Our philosophy focuses on purity of flavor, precise execution, and a sensory journey that takes you across the classic French regions. Every ingredient is checked for perfection, every plate composed with balance.
+            {t('home.experienceDescription', 'Our philosophy focuses on purity of flavor, precise execution, and a sensory journey that takes you across the classic French regions.')}
           </p>
           <div className="flex flex-col sm:flex-row gap-6">
             <div className="border-l-2 border-amber-500 pl-4">
-              <h4 className="text-2xl font-serif font-bold text-white">3 Michelin</h4>
-              <p className="text-xs text-gray-500 uppercase tracking-widest">Stars Excellence</p>
+              <h4 className="text-2xl font-serif font-bold text-white">{t('home.michelinText', '3 Michelin')}</h4>
+              <p className="text-xs text-gray-500 uppercase tracking-widest">{t('home.starsExcellence', 'Stars Excellence')}</p>
             </div>
             <div className="border-l-2 border-amber-500 pl-4">
-              <h4 className="text-2xl font-serif font-bold text-white">100% Organic</h4>
-              <p className="text-xs text-gray-500 uppercase tracking-widest">Farm-To-Table Sourcing</p>
+              <h4 className="text-2xl font-serif font-bold text-white">{t('home.organicText', '100% Organic')}</h4>
+              <p className="text-xs text-gray-500 uppercase tracking-widest">{t('home.farmToTable', 'Farm-To-Table Sourcing')}</p>
             </div>
           </div>
         </div>
@@ -188,8 +150,8 @@ const Home = () => {
       {/* Customer Testimonials */}
       <section className="max-w-7xl mx-auto px-6 space-y-12 bg-charcoal-900/50 py-16 rounded-3xl border border-white/5">
         <div className="text-center space-y-4">
-          <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">Reviews</span>
-          <h2 className="text-3xl font-serif font-bold text-white">What Culinary Enthusiasts Say</h2>
+          <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">{t('home.reviewTag', 'Reviews')}</span>
+          <h2 className="text-3xl font-serif font-bold text-white">{t('home.reviewHeading', 'What Culinary Enthusiasts Say')}</h2>
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto"></div>
         </div>
 
@@ -214,16 +176,16 @@ const Home = () => {
       {/* Call to Action Reservation Section */}
       <section className="max-w-7xl mx-auto px-6 text-center">
         <div className="glassmorphism bg-gradient-to-b from-charcoal-900 to-charcoal-950 p-12 rounded-3xl border border-white/5 space-y-6 max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white">Join Us For An Unforgettable Evening</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white">{t('home.reserveHeading', 'Join Us For An Unforgettable Evening')}</h2>
           <p className="max-w-lg mx-auto text-sm text-gray-400 leading-relaxed">
-            Seating is highly limited. We recommend booking your table at least 2 weeks in advance.
+            {t('home.reserveDescription', 'Seating is highly limited. We recommend booking your table at least 2 weeks in advance.')}
           </p>
           <div className="pt-2">
             <Link
               to="/reservations"
               className="inline-block bg-gradient-to-r from-amber-500 to-gold-500 hover:from-amber-600 hover:to-gold-600 text-charcoal-950 font-bold py-3.5 px-8 rounded-full transition-all transform hover:scale-105 active:scale-95"
             >
-              Reserve Table Now
+              {t('home.ctaReserve', 'Reserve Table Now')}
             </Link>
           </div>
         </div>

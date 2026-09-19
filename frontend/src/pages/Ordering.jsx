@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Search, ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react';
 
 const Ordering = () => {
@@ -14,6 +15,7 @@ const Ordering = () => {
   
   const { cart, addToCart, updateQuantity, removeFromCart, getCartTotal, getCartCount } = useCart();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,8 +61,8 @@ const Ordering = () => {
     <div className="space-y-12 pb-20 pt-10 px-6 max-w-7xl mx-auto">
       {/* Title */}
       <div className="text-center space-y-4">
-        <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">Gourmet Delivery</span>
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">Order Online</h1>
+        <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">{t('ordering.smallTitle', 'Gourmet Delivery')}</span>
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">{t('ordering.heading', 'Order Online')}</h1>
         <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto"></div>
       </div>
 
@@ -73,7 +75,7 @@ const Ordering = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
             <input
               type="text"
-              placeholder="Search dishes to add to your bag..."
+              placeholder={t('ordering.placeholder', 'Search dishes to add to your bag...')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-charcoal-900 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
@@ -90,7 +92,7 @@ const Ordering = () => {
                   : 'bg-charcoal-900/50 border-white/10 text-gray-400 hover:border-amber-500/30'
               }`}
             >
-              All Items
+              {t('ordering.allItems', 'All Items')}
             </button>
             {categories.map((cat) => (
               <button
@@ -114,7 +116,7 @@ const Ordering = () => {
             </div>
           ) : items.length === 0 ? (
             <div className="glassmorphism p-12 text-center rounded-2xl border border-white/5">
-              <p className="text-gray-400">No items match your selections.</p>
+              <p className="text-gray-400">{t('ordering.noItems', 'No items match your selections.')}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -147,7 +149,7 @@ const Ordering = () => {
         <div className="lg:col-span-4 sticky top-28 bg-charcoal-900 border border-white/10 rounded-3xl p-6 space-y-6">
           <div className="flex items-center space-x-2 border-b border-white/5 pb-4">
             <ShoppingBag className="h-5 w-5 text-amber-500" />
-            <h2 className="font-serif text-lg font-bold text-white">Your Dining Bag</h2>
+            <h2 className="font-serif text-lg font-bold text-white">{t('ordering.bagTitle', 'Your Dining Bag')}</h2>
             <span className="bg-amber-500/10 text-amber-500 text-xs font-bold px-2 py-0.5 rounded-full ml-auto">
               {getCartCount()}
             </span>
@@ -156,8 +158,8 @@ const Ordering = () => {
           {cart.length === 0 ? (
             <div className="text-center py-12 text-gray-400 space-y-2">
               <ShoppingBag className="h-8 w-8 text-gray-600 mx-auto" />
-              <p className="text-xs">Your bag is empty.</p>
-              <p className="text-xs text-gray-500">Add delicious gourmet meals from the left list to begin.</p>
+              <p className="text-xs">{t('ordering.emptyTitle', 'Your bag is empty.')}</p>
+              <p className="text-xs text-gray-500">{t('ordering.emptySubtitle', 'Add delicious gourmet meals from the left list to begin.')}</p>
             </div>
           ) : (
             <div className="space-y-4 text-left">
@@ -204,15 +206,15 @@ const Ordering = () => {
               {/* Summary */}
               <div className="space-y-2 pt-4 border-t border-white/5">
                 <div className="flex justify-between text-xs text-gray-400">
-                  <span>Subtotal</span>
+                  <span>{t('ordering.subtotal', 'Subtotal')}</span>
                   <span className="text-white font-medium">${getCartTotal().toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-xs text-gray-400">
-                  <span>Delivery Fee</span>
-                  <span className="text-white font-medium">Free</span>
+                  <span>{t('ordering.deliveryFee', 'Delivery Fee')}</span>
+                  <span className="text-white font-medium">{t('ordering.freeDelivery', 'Free')}</span>
                 </div>
                 <div className="flex justify-between text-sm font-bold text-white border-t border-white/5 pt-2 font-serif">
-                  <span>Total Amount</span>
+                  <span>{t('ordering.totalAmount', 'Total Amount')}</span>
                   <span className="text-amber-500">${getCartTotal().toFixed(2)}</span>
                 </div>
               </div>
@@ -222,7 +224,7 @@ const Ordering = () => {
                 onClick={handleCheckout}
                 className="w-full bg-gradient-to-r from-amber-500 to-gold-500 hover:from-amber-600 hover:to-gold-600 text-charcoal-950 font-bold py-3 rounded-xl text-center flex items-center justify-center space-x-2 transition-all transform active:scale-95 cursor-pointer"
               >
-                <span>Proceed to Checkout</span>
+                <span>{t('ordering.checkoutButton', 'Proceed to Checkout')}</span>
               </button>
             </div>
           )}

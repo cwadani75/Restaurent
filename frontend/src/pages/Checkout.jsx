@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import api from '../services/api';
 import { CreditCard, Truck, ShoppingBag, Phone, MapPin, CheckCircle, ArrowLeft } from 'lucide-react';
 
 const Checkout = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -89,18 +91,18 @@ const Checkout = () => {
         <div className="bg-green-500/10 text-green-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto shadow-xl">
           <CheckCircle className="h-10 w-10" />
         </div>
-        <h1 className="font-serif text-3xl font-bold text-white">Order Confirmed!</h1>
+        <h1 className="font-serif text-3xl font-bold text-white">{t('checkout.orderConfirmed', 'Order Confirmed!')}</h1>
           <p className="text-gray-400 text-sm leading-relaxed max-w-md mx-auto">
-          Thank you for dining with Sowda restaurent. Your order <span className="text-white font-medium">#{placedOrder.id}</span> has been received and is currently being prepared by our master chefs.
+          {t('checkout.orderThankYou', 'Thank you for dining with Sowda restaurent. Your order')} <span className="text-white font-medium">#{placedOrder.id}</span> {t('checkout.orderThankYouSuffix', 'has been received and is currently being prepared by our master chefs.')}
         </p>
 
         <div className="glassmorphism p-6 rounded-2xl border border-white/5 text-left space-y-4 max-w-md mx-auto">
-          <h3 className="font-serif font-bold text-white text-md border-b border-white/5 pb-2">Order Summary</h3>
+          <h3 className="font-serif font-bold text-white text-md border-b border-white/5 pb-2">{t('checkout.orderSummary', 'Order Summary')}</h3>
           <div className="text-xs text-gray-400 space-y-1">
-            <p>Order Status: <span className="text-amber-500 font-semibold uppercase">{placedOrder.status}</span></p>
-            <p>Preparation Type: <span className="text-white font-medium capitalize">{placedOrder.order_type}</span></p>
-            {placedOrder.delivery_address && <p>Address: <span className="text-white font-medium">{placedOrder.delivery_address}</span></p>}
-            <p>Total Paid: <span className="text-amber-500 font-bold font-serif">${placedOrder.total_amount.toFixed(2)}</span></p>
+            <p>{t('checkout.orderStatus', 'Order Status')}: <span className="text-amber-500 font-semibold uppercase">{placedOrder.status}</span></p>
+            <p>{t('checkout.preparationType', 'Preparation Type')}: <span className="text-white font-medium capitalize">{placedOrder.order_type}</span></p>
+            {placedOrder.delivery_address && <p>{t('checkout.deliveryAddress', 'Address')}: <span className="text-white font-medium">{placedOrder.delivery_address}</span></p>}
+            <p>{t('checkout.totalPaid', 'Total Paid')}: <span className="text-amber-500 font-bold font-serif">${placedOrder.total_amount.toFixed(2)}</span></p>
           </div>
         </div>
 
@@ -115,7 +117,7 @@ const Checkout = () => {
             to="/"
             className="bg-white/5 hover:bg-white/10 text-white border border-white/10 py-3 px-6 rounded-full transition-all"
           >
-            Back to Home
+            {t('checkout.backToHome', 'Back to Home')}
           </Link>
         </div>
       </div>
@@ -126,8 +128,8 @@ const Checkout = () => {
     <div className="space-y-12 pb-20 pt-10 px-6 max-w-7xl mx-auto">
       {/* Title */}
       <div className="text-center space-y-4">
-        <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">Finalize Dining</span>
-        <h1 className="text-4xl font-serif font-bold text-white">Secure Checkout</h1>
+        <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">{t('checkout.headerTag', 'Finalize Dining')}</span>
+        <h1 className="text-4xl font-serif font-bold text-white">{t('checkout.heading', 'Secure Checkout')}</h1>
         <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto"></div>
       </div>
 
@@ -143,11 +145,11 @@ const Checkout = () => {
 
             {/* Delivery Details */}
             <div className="space-y-4">
-              <h3 className="font-serif text-lg font-bold text-white border-b border-white/5 pb-2">1. Delivery Details</h3>
+              <h3 className="font-serif text-lg font-bold text-white border-b border-white/5 pb-2">{t('checkout.deliveryDetails', '1. Delivery Details')}</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Recipient Name</label>
+                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('checkout.recipientName', 'Recipient Name')}</label>
                   <input
                     type="text"
                     name="name"
@@ -158,7 +160,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Phone Number</label>
+                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('checkout.phoneNumber', 'Phone Number')}</label>
                   <input
                     type="tel"
                     name="phone"
@@ -171,7 +173,7 @@ const Checkout = () => {
                 </div>
                 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Order Type</label>
+                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('checkout.orderType', 'Order Type')}</label>
                   <div className="flex space-x-4">
                     <button
                       type="button"
@@ -183,7 +185,7 @@ const Checkout = () => {
                       }`}
                     >
                       <Truck className="h-4 w-4" />
-                      <span className="text-sm font-semibold">Home Delivery</span>
+                      <span className="text-sm font-semibold">{t('checkout.homeDelivery', 'Home Delivery')}</span>
                     </button>
                     <button
                       type="button"
@@ -195,14 +197,14 @@ const Checkout = () => {
                       }`}
                     >
                       <ShoppingBag className="h-4 w-4" />
-                      <span className="text-sm font-semibold">Restaurant Pickup</span>
+                      <span className="text-sm font-semibold">{t('checkout.restaurantPickup', 'Restaurant Pickup')}</span>
                     </button>
                   </div>
                 </div>
 
                 {formData.order_type === 'delivery' && (
                   <div className="space-y-2 md:col-span-2">
-                    <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Delivery Address</label>
+                    <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('checkout.deliveryAddress', 'Delivery Address')}</label>
                     <textarea
                       name="delivery_address"
                       required
@@ -219,7 +221,7 @@ const Checkout = () => {
 
             {/* Payment Details */}
             <div className="space-y-4">
-              <h3 className="font-serif text-lg font-bold text-white border-b border-white/5 pb-2">2. Settlement Method</h3>
+              <h3 className="font-serif text-lg font-bold text-white border-b border-white/5 pb-2">{t('checkout.paymentDetails', '2. Settlement Method')}</h3>
 
               <div className="flex space-x-4">
                 <button
@@ -232,7 +234,7 @@ const Checkout = () => {
                   }`}
                 >
                   <CreditCard className="h-4 w-4" />
-                  <span className="text-sm font-semibold">Credit/Debit Card</span>
+                  <span className="text-sm font-semibold">{t('checkout.creditCard', 'Credit/Debit Card')}</span>
                 </button>
                 <button
                   type="button"
@@ -245,7 +247,9 @@ const Checkout = () => {
                 >
                   <MapPin className="h-4 w-4" />
                   <span className="text-sm font-semibold">
-                    {formData.order_type === 'delivery' ? 'Cash on Delivery' : 'Pay at Counter'}
+                    {formData.order_type === 'delivery'
+                      ? t('checkout.cashOnDelivery', 'Cash on Delivery')
+                      : t('checkout.payAtCounter', 'Pay at Counter')}
                   </span>
                 </button>
               </div>
@@ -253,7 +257,7 @@ const Checkout = () => {
               {formData.payment_method === 'card' && (
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-4">
                   <div className="space-y-2 md:col-span-2">
-                    <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Card Number</label>
+                    <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('checkout.cardNumber', 'Card Number')}</label>
                     <input
                       type="text"
                       name="card_number"
@@ -265,7 +269,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Expiration</label>
+                    <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('checkout.cardExpiry', 'Expiry Date')}</label>
                     <input
                       type="text"
                       name="card_expiry"
@@ -277,7 +281,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">CVC Code</label>
+                    <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('checkout.cardCvc', 'CVC Code')}</label>
                     <input
                       type="password"
                       name="card_cvc"
@@ -301,10 +305,10 @@ const Checkout = () => {
               {loading ? (
                 <div className="flex items-center space-x-2">
                   <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-charcoal-950"></div>
-                  <span>Authorizing Card Payment...</span>
+                  <span>{t('checkout.authorizingPayment', 'Authorizing Card Payment...')}</span>
                 </div>
               ) : (
-                <span>Place Order & Pay ${getCartTotal().toFixed(2)}</span>
+                <span>{t('checkout.placeOrder', 'Place Order & Pay')} ${getCartTotal().toFixed(2)}</span>
               )}
             </button>
           </form>
@@ -313,10 +317,10 @@ const Checkout = () => {
         {/* Order Summary Sidebar */}
         <div className="lg:col-span-4 bg-charcoal-900 border border-white/10 rounded-3xl p-6 space-y-6 text-left">
           <div className="flex justify-between items-center border-b border-white/5 pb-4">
-            <h3 className="font-serif text-xl font-bold text-white">Gourmet Bag</h3>
+            <h3 className="font-serif text-xl font-bold text-white">{t('checkout.orderSummary', 'Order Summary')}</h3>
             <Link to="/cart" className="text-xs text-amber-500 hover:underline flex items-center space-x-1">
               <ArrowLeft className="h-3.5 w-3.5" />
-              <span>Modify</span>
+              <span>{t('checkout.modify', 'Modify')}</span>
             </Link>
           </div>
 
@@ -326,7 +330,7 @@ const Checkout = () => {
               <div key={item.id} className="flex justify-between text-xs pt-3">
                 <div className="min-w-0">
                   <p className="font-semibold text-white truncate">{item.name}</p>
-                  <p className="text-gray-400">Qty: {item.quantity} × ${item.price.toFixed(2)}</p>
+                  <p className="text-gray-400">{t('checkout.quantity', 'Qty')}: {item.quantity} × ${item.price.toFixed(2)}</p>
                 </div>
                 <span className="font-serif font-semibold text-amber-500 shrink-0 ml-4">${(item.price * item.quantity).toFixed(2)}</span>
               </div>
@@ -336,15 +340,15 @@ const Checkout = () => {
           {/* Pricing breakdown */}
           <div className="space-y-3 pt-4 border-t border-white/5 text-xs text-gray-400">
             <div className="flex justify-between">
-              <span>Subtotal</span>
+              <span>{t('checkout.subtotal', 'Subtotal')}</span>
               <span className="text-white font-medium">${getCartTotal().toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
-              <span>VAT (10%)</span>
+              <span>{t('checkout.vat', 'VAT (10%)')}</span>
               <span className="text-white font-medium">${(getCartTotal() * 0.1).toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm font-bold text-white border-t border-white/5 pt-2 font-serif">
-              <span>Grand Total</span>
+              <span>{t('checkout.grandTotal', 'Grand Total')}</span>
               <span className="text-amber-500">${(getCartTotal() * 1.1).toFixed(2)}</span>
             </div>
           </div>

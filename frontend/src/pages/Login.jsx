@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { LogIn, Mail, Lock, ShieldAlert } from 'lucide-react';
 
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   
   const { login, user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect') || '/';
@@ -31,7 +33,7 @@ const Login = () => {
       navigate(redirect);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.error || 'Invalid email or password.');
+      setError(err.response?.data?.error || t('login.invalidCredentials', 'Invalid email or password.'));
     } finally {
       setLoading(false);
     }
@@ -44,8 +46,8 @@ const Login = () => {
         
         {/* Header */}
         <div className="text-center space-y-2 relative z-10">
-          <h1 className="font-serif text-3xl font-bold text-white">Customer Login</h1>
-          <p className="text-xs text-gray-400">Sign in to order gourmet meals and manage your bookings.</p>
+            <h1 className="font-serif text-3xl font-bold text-white">{t('login.heading', 'Customer Login')}</h1>
+            <p className="text-xs text-gray-400">{t('login.description', 'Sign in to order gourmet meals and manage your bookings.')}</p>
         </div>
 
         {error && (
@@ -58,7 +60,7 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-4 relative z-10 text-left">
           {/* Email */}
           <div className="space-y-1.5">
-            <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">Email Address</label>
+            <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">{t('login.emailLabel', 'Email Address')}</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-505" />
               <input
@@ -66,7 +68,7 @@ const Login = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="john@example.com"
+                placeholder={t('login.emailPlaceholder', 'john@example.com')}
                 className="w-full bg-charcoal-950 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
@@ -74,7 +76,7 @@ const Login = () => {
 
           {/* Password */}
           <div className="space-y-1.5">
-            <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">Password</label>
+            <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">{t('login.passwordLabel', 'Password')}</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-505" />
               <input
@@ -82,7 +84,7 @@ const Login = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder={t('login.passwordPlaceholder', '••••••••')}
                 className="w-full bg-charcoal-950 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
@@ -98,7 +100,7 @@ const Login = () => {
             ) : (
               <>
                 <LogIn className="h-4 w-4" />
-                <span>Login Session</span>
+                <span>{t('login.loginButton', 'Login Session')}</span>
               </>
             )}
           </button>
@@ -106,15 +108,15 @@ const Login = () => {
 
         <div className="text-center text-xs text-gray-400 pt-2 border-t border-white/5 relative z-10 space-y-2">
           <p>
-            Don't have an account?{' '}
+            {t('login.registerPrompt', "Don't have an account?")}{' '}
             <Link to={`/register?redirect=${encodeURIComponent(redirect)}`} className="text-amber-500 hover:underline font-semibold">
-              Register Here
+              {t('login.registerLink', 'Register Here')}
             </Link>
           </p>
           <p>
-            Are you an admin?{' '}
+            {t('login.adminPrompt', 'Are you an admin?')}{' '}
             <Link to="/admin/login" className="text-amber-500 hover:underline font-semibold">
-              Use the admin login page
+              {t('login.adminLink', 'Use the admin login page')}
             </Link>
           </p>
         </div>

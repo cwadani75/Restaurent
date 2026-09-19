@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 import { Utensils, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
 
 const Footer = () => {
   const location = useLocation();
+  const { t } = useLanguage();
 
   // Hide footer on admin pages
   if (location.pathname.startsWith('/admin')) {
@@ -19,7 +21,7 @@ const Footer = () => {
               <Utensils className="h-5 w-5 text-charcoal-950" />
             </div>
             <span className="font-serif text-lg font-bold tracking-widest text-white">
-              Sowda restaurent
+              {t('brand.name', 'Sowda restaurent')}
             </span>
           </div>
           <p className="text-sm text-gray-400 leading-relaxed">
@@ -40,14 +42,14 @@ const Footer = () => {
 
         {/* Quick Links Column */}
         <div className="space-y-4">
-          <h3 className="text-white font-serif text-md font-semibold uppercase tracking-wider">Navigation</h3>
+          <h3 className="text-white font-serif text-md font-semibold uppercase tracking-wider">{t('footer.navigation', 'Navigation')}</h3>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><Link to="/" className="hover:text-amber-500 transition-colors">Home</Link></li>
-            <li><Link to="/menu" className="hover:text-amber-500 transition-colors">Our Menu</Link></li>
-            <li><Link to="/ordering" className="hover:text-amber-500 transition-colors">Order Online</Link></li>
-            <li><Link to="/reservations" className="hover:text-amber-500 transition-colors">Reservations</Link></li>
-            <li><Link to="/about" className="hover:text-amber-500 transition-colors">About Us</Link></li>
-            <li><Link to="/contact" className="hover:text-amber-500 transition-colors">Contact</Link></li>
+            <li><Link to="/" className="hover:text-amber-500 transition-colors">{t('nav.home', 'Home')}</Link></li>
+            <li><Link to="/menu" className="hover:text-amber-500 transition-colors">{t('footer.ourMenu', 'Our Menu')}</Link></li>
+            <li><Link to="/ordering" className="hover:text-amber-500 transition-colors">{t('nav.orderOnline', 'Order Online')}</Link></li>
+            <li><Link to="/reservations" className="hover:text-amber-500 transition-colors">{t('nav.reservations', 'Reservations')}</Link></li>
+            <li><Link to="/about" className="hover:text-amber-500 transition-colors">{t('nav.aboutUs', 'About Us')}</Link></li>
+            <li><Link to="/contact" className="hover:text-amber-500 transition-colors">{t('nav.contact', 'Contact')}</Link></li>
           </ul>
         </div>
 

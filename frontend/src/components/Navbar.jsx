@@ -2,14 +2,17 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { ShoppingCart, User, Menu, X, Utensils, LogOut, LayoutDashboard } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { ShoppingCart, User, Menu, X, Utensils, LogOut, LayoutDashboard, Globe, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showLoginMenu, setShowLoginMenu] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
   const { user, logout, isAdmin } = useAuth();
   const { getCartCount } = useCart();
+  const { t, language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,12 +28,12 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Menu', path: '/menu' },
-    { name: 'Order Online', path: '/ordering' },
-    { name: 'Reservations', path: '/reservations' },
-    { name: 'Contact', path: '/contact' },
+    { name: t('nav.home', 'Home'), path: '/' },
+    { name: t('nav.aboutUs', 'About Us'), path: '/about' },
+    { name: t('nav.menu', 'Menu'), path: '/menu' },
+    { name: t('nav.orderOnline', 'Order Online'), path: '/ordering' },
+    { name: t('nav.reservations', 'Reservations'), path: '/reservations' },
+    { name: t('nav.contact', 'Contact'), path: '/contact' },
   ];
 
   return (
@@ -63,7 +66,40 @@ const Navbar = () => {
       </div>
 
       {/* Utilities / Profile Section */}
-      <div className="hidden lg:flex items-center space-x-6">
+      <div className="hidden lg:flex items-center space-x-4">
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => {
+              setShowLangMenu(!showLangMenu);
+              setShowDropdown(false);
+            }}
+            className="flex items-center gap-2 text-sm text-gray-300 hover:text-amber-500 transition-colors px-4 py-2 rounded-full border border-white/10 bg-white/5"
+          >
+            <Globe className="h-4 w-4" />
+            <span>{language === 'en' ? t('language.englishShort') : t('language.somaliShort')}</span>
+            <ChevronDown className="h-3 w-3" />
+          </button>
+          {showLangMenu && (
+            <div className="absolute right-0 mt-2 w-40 rounded-3xl bg-charcoal-900 border border-white/10 shadow-2xl overflow-hidden z-50">
+              {['en', 'so'].map((langCode) => (
+                <button
+                  key={langCode}
+                  onClick={() => {
+                    setLanguage(langCode);
+                    setShowLangMenu(false);
+                  }}
+                  className={`block w-full text-left px-4 py-3 text-sm transition-colors ${
+                    language === langCode ? 'bg-amber-500 text-charcoal-950' : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                  }`}
+                >
+                  {langCode === 'en' ? t('language.english') : t('language.somali')}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Cart Icon */}
         <Link to="/cart" className="relative p-2 text-gray-300 hover:text-amber-500 transition-colors">
           <ShoppingCart className="h-6 w-6" />
@@ -102,7 +138,7 @@ const Navbar = () => {
                       className="flex items-center space-x-2 w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-amber-600/20 rounded-lg transition-all"
                     >
                       <LayoutDashboard className="h-4 w-4 text-amber-500" />
-                      <span>Admin Dashboard</span>
+                      <span>{t('userMenu.adminDashboard', 'Admin Dashboard')}</span>
                     </Link>
                   )}
 
@@ -112,7 +148,7 @@ const Navbar = () => {
                     className="flex items-center space-x-2 w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
                   >
                     <User className="h-4 w-4 text-gray-400" />
-                    <span>My Profile & Orders</span>
+                    <span>{t('userMenu.myProfileOrders', 'My Profile & Orders')}</span>
                   </Link>
 
                   <button
@@ -120,7 +156,7 @@ const Navbar = () => {
                     className="flex items-center space-x-2 w-full text-left px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-all mt-1"
                   >
                     <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
+                    <span>{t('userMenu.logout', 'Logout')}</span>
                   </button>
                 </div>
               )}
@@ -135,7 +171,7 @@ const Navbar = () => {
                   }}
                   className="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors px-4 py-2 rounded-full border border-white/10 hover:bg-white/5"
                 >
-                  Login
+                  {t('userMenu.login', 'Login')}
                 </button>
 
                 {showLoginMenu && (
@@ -145,14 +181,14 @@ const Navbar = () => {
                       onClick={() => setShowLoginMenu(false)}
                       className="block px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
                     >
-                      User Login
+                      {t('userMenu.userLogin', 'User Login')}
                     </Link>
                     <Link
                       to="/admin/login"
                       onClick={() => setShowLoginMenu(false)}
                       className="block px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
                     >
-                      Admin Login
+                      {t('userMenu.adminLogin', 'Admin Login')}
                     </Link>
                   </div>
                 )}
@@ -162,7 +198,7 @@ const Navbar = () => {
                 to="/register"
                 className="text-sm font-semibold text-amber-500 hover:text-amber-400 transition-colors px-4 py-2 rounded-full border border-amber-500 hover:bg-amber-500/10"
               >
-                Register
+                {t('userMenu.register', 'Register')}
               </Link>
             </div>
           )}
@@ -196,21 +232,21 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
                 className="block text-sm text-gray-300 hover:text-amber-500"
               >
-                User Login
+                {t('userMenu.userLogin', 'User Login')}
               </Link>
               <Link
                 to="/admin/login"
                 onClick={() => setIsOpen(false)}
                 className="block text-sm text-gray-300 hover:text-amber-500"
               >
-                Admin Login
+                {t('userMenu.adminLogin', 'Admin Login')}
               </Link>
               <Link
                 to="/register"
                 onClick={() => setIsOpen(false)}
                 className="block text-sm text-amber-500 font-semibold"
               >
-                Register
+                {t('userMenu.register', 'Register')}
               </Link>
             </div>
           </div>

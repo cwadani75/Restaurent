@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { LogIn, Mail, Lock, ShieldAlert } from 'lucide-react';
 
 const AdminLogin = () => {
@@ -10,6 +11,7 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
 
   const { adminLogin, user, isAdmin } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect') || '/admin';
@@ -30,7 +32,7 @@ const AdminLogin = () => {
       navigate(redirect, { replace: true });
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.error || 'Invalid admin email or password.');
+      setError(err.response?.data?.error || t('adminLogin.invalidCredentials', 'Invalid admin email or password.'));
     } finally {
       setLoading(false);
     }
@@ -42,8 +44,8 @@ const AdminLogin = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,155,38,0.04)_0,transparent_70%)] pointer-events-none rounded-3xl"></div>
 
         <div className="text-center space-y-2 relative z-10">
-          <h1 className="font-serif text-3xl font-bold text-white">Admin Login</h1>
-          <p className="text-xs text-gray-400">Sign in with your admin credentials to access the Sowda dashboard.</p>
+          <h1 className="font-serif text-3xl font-bold text-white">{t('adminLogin.heading', 'Admin Login')}</h1>
+          <p className="text-xs text-gray-400">{t('adminLogin.description', 'Sign in with your admin credentials to access the Sowda dashboard.')}</p>
         </div>
 
         {error && (
@@ -55,7 +57,7 @@ const AdminLogin = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4 relative z-10 text-left">
           <div className="space-y-1.5">
-            <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">Admin Email</label>
+            <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">{t('adminLogin.adminEmailLabel', 'Admin Email')}</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-505" />
               <input
@@ -63,14 +65,14 @@ const AdminLogin = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@sowda.com"
+                placeholder={t('adminLogin.emailPlaceholder', 'admin@sowda.com')}
                 className="w-full bg-charcoal-950 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">Password</label>
+            <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">{t('adminLogin.passwordLabel', 'Password')}</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-505" />
               <input
@@ -78,7 +80,7 @@ const AdminLogin = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder={t('adminLogin.passwordPlaceholder', '••••••••')}
                 className="w-full bg-charcoal-950 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
@@ -94,7 +96,7 @@ const AdminLogin = () => {
             ) : (
               <>
                 <LogIn className="h-4 w-4" />
-                <span>Admin Login</span>
+                <span>{t('adminLogin.loginButton', 'Admin Login')}</span>
               </>
             )}
           </button>
@@ -102,15 +104,15 @@ const AdminLogin = () => {
 
         <div className="text-center text-xs text-gray-400 pt-2 border-t border-white/5 relative z-10 space-y-2">
           <p>
-            Need a customer account?{' '}
+            {t('adminLogin.needCustomerAccount', 'Need a customer account?')}{' '}
             <Link to="/login" className="text-amber-500 hover:underline font-semibold">
-              User Login
+              {t('adminLogin.userLogin', 'User Login')}
             </Link>
           </p>
           <p>
-            Don't have an account?{' '}
+            {t('adminLogin.dontHaveAccount', "Don't have an account?")}{' '}
             <Link to="/register" className="text-amber-500 hover:underline font-semibold">
-              Register Here
+              {t('adminLogin.registerHere', 'Register Here')}
             </Link>
           </p>
         </div>

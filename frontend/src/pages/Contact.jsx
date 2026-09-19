@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import { Mail, Phone, MapPin, Send, CheckCircle, Clock } from 'lucide-react';
 
 const Contact = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -31,11 +33,11 @@ const Contact = () => {
     <div className="space-y-20 pb-20 pt-10 px-6 max-w-7xl mx-auto">
       {/* Header */}
       <section className="max-w-3xl mx-auto text-center space-y-4">
-        <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">Contact Us</span>
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">We'd Love to Hear From You</h1>
+        <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">{t('contact.headerTag', 'Contact Us')}</span>
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">{t('contact.heading', "We'd Love to Hear From You")}</h1>
         <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto"></div>
         <p className="text-gray-400 font-light">
-          Have a question about our menu, private events, or catering? Send us a message, and our host team will respond within 24 hours.
+          {t('contact.description', 'Have a question about our menu, private events, or catering? Send us a message, and our host team will respond within 24 hours.')}
         </p>
       </section>
 
@@ -44,27 +46,27 @@ const Contact = () => {
         {/* Info Column */}
         <div className="lg:col-span-5 space-y-8">
           <div className="glassmorphism p-8 rounded-2xl border border-white/5 space-y-6">
-            <h2 className="font-serif text-xl font-bold text-white">Contact Information</h2>
+            <h2 className="font-serif text-xl font-bold text-white">{t('contact.infoTitle', 'Contact Information')}</h2>
             
             <ul className="space-y-6 text-sm text-gray-300">
               <li className="flex items-start space-x-4">
                 <MapPin className="h-5 w-5 text-amber-500 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">Our Location</p>
+                  <p className="font-semibold text-white">{t('contact.locationLabel', 'Our Location')}</p>
                   <p className="text-gray-400 pt-1">42 Champs-Élysées, Paris, France 75008</p>
                 </div>
               </li>
               <li className="flex items-start space-x-4">
                 <Phone className="h-5 w-5 text-amber-500 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">Hotline</p>
+                  <p className="font-semibold text-white">{t('contact.hotlineLabel', 'Hotline')}</p>
                   <p className="text-gray-400 pt-1">+254 724 631727</p>
                 </div>
               </li>
               <li className="flex items-start space-x-4">
                 <Mail className="h-5 w-5 text-amber-500 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">Email Address</p>
+                  <p className="font-semibold text-white">{t('contact.emailLabel', 'Email Address')}</p>
                   <p className="text-gray-400 pt-1">reservations@sowda.com</p>
                 </div>
               </li>
@@ -74,20 +76,20 @@ const Contact = () => {
           <div className="glassmorphism p-8 rounded-2xl border border-white/5 space-y-4">
             <h2 className="font-serif text-xl font-bold text-white flex items-center space-x-2">
               <Clock className="h-5 w-5 text-amber-500" />
-              <span>Dining Room Hours</span>
+              <span>{t('contact.hoursTitle', 'Dining Room Hours')}</span>
             </h2>
             <div className="text-sm text-gray-400 space-y-2">
               <p className="flex justify-between">
-                <span>Monday - Friday</span>
-                <span className="text-white font-medium">17:00 - 23:00</span>
+                <span>{t('contact.hours.0.label', 'Monday - Friday')}</span>
+                <span className="text-white font-medium">{t('contact.hours.0.value', '17:00 - 23:00')}</span>
               </p>
               <p className="flex justify-between">
-                <span>Saturday</span>
-                <span className="text-white font-medium">12:00 - 23:30</span>
+                <span>{t('contact.hours.1.label', 'Saturday')}</span>
+                <span className="text-white font-medium">{t('contact.hours.1.value', '12:00 - 23:30')}</span>
               </p>
               <p className="flex justify-between">
-                <span>Sunday</span>
-                <span className="text-white font-medium">12:00 - 22:00</span>
+                <span>{t('contact.hours.2.label', 'Sunday')}</span>
+                <span className="text-white font-medium">{t('contact.hours.2.value', '12:00 - 22:00')}</span>
               </p>
             </div>
           </div>
@@ -100,9 +102,9 @@ const Contact = () => {
               <div className="bg-amber-500/10 text-amber-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle className="h-8 w-8" />
               </div>
-              <h3 className="font-serif text-2xl font-bold text-white">Message Sent!</h3>
+              <h3 className="font-serif text-2xl font-bold text-white">{t('contact.successHeading', 'Message Sent!')}</h3>
               <p className="text-gray-400 leading-relaxed">
-                Thank you for contacting us. Your message has been submitted successfully. Our customer support manager will get back to you shortly.
+                {t('contact.successDescription', 'Thank you for contacting us. Your message has been submitted successfully. Our customer support manager will get back to you shortly.')}
               </p>
               <button
                 onClick={() => setSuccess(false)}
@@ -113,57 +115,57 @@ const Contact = () => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="glassmorphism p-8 md:p-10 rounded-3xl border border-white/5 space-y-6">
-              <h2 className="font-serif text-xl font-bold text-white">Send Us A Message</h2>
+              <h2 className="font-serif text-xl font-bold text-white">{t('contact.formHeading', 'Send Us A Message')}</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Your Name</label>
+                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('contact.fields.name', 'Your Name')}</label>
                   <input
                     type="text"
                     name="name"
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="John Doe"
+                    placeholder={t('contact.placeholders.name', 'John Doe')}
                     className="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Email Address</label>
+                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('contact.fields.email', 'Email Address')}</label>
                   <input
                     type="email"
                     name="email"
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder={t('contact.placeholders.email', 'john@example.com')}
                     className="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Subject</label>
+                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('contact.fields.subject', 'Subject')}</label>
                   <input
                     type="text"
                     name="subject"
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Private Booking Inquiry"
+                    placeholder={t('contact.placeholders.subject', 'Private Booking Inquiry')}
                     className="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">Message</label>
+                  <label className="text-xs font-semibold tracking-wider text-gray-400 uppercase">{t('contact.fields.message', 'Message')}</label>
                   <textarea
                     name="message"
                     required
                     rows="5"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Write details of your query..."
+                    placeholder={t('contact.placeholders.message', 'Write details of your query...')}
                     className="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition-colors resize-none"
                   ></textarea>
                 </div>
@@ -179,7 +181,7 @@ const Contact = () => {
                 ) : (
                   <>
                     <Send className="h-4 w-4" />
-                    <span>Send Message</span>
+                    <span>{t('buttons.sendMessage', 'Send Message')}</span>
                   </>
                 )}
               </button>
@@ -197,11 +199,11 @@ const Contact = () => {
             <MapPin className="h-6 w-6" />
           </div>
           <div className="text-center">
-            <p className="font-serif text-lg font-bold text-white">42 Champs-Élysées</p>
-            <p className="text-xs text-gray-500">Paris, France 75008</p>
+            <p className="font-serif text-lg font-bold text-white">{t('contact.mapLocation', '42 Champs-Élysées')}</p>
+            <p className="text-xs text-gray-500">{t('contact.mapCity', 'Paris, France 75008')}</p>
           </div>
         </div>
-        <div className="text-xs text-gray-600 absolute bottom-4 right-4">Interactive Map View Simulation</div>
+        <div className="text-xs text-gray-600 absolute bottom-4 right-4">{t('contact.mapHint', 'Interactive Map View Simulation')}</div>
       </section>
     </div>
   );

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Plus, Eye } from 'lucide-react';
 
 const MenuItemCard = ({ item }) => {
   const { addToCart } = useCart();
+  const { t } = useLanguage();
 
   return (
     <div className="glassmorphism-card rounded-2xl overflow-hidden flex flex-col group h-full">
@@ -46,7 +48,7 @@ const MenuItemCard = ({ item }) => {
         {/* Action button */}
         <div className="pt-4 border-t border-white/5 flex justify-between items-center mt-auto">
           <span className="text-xs font-medium text-gray-500">
-            {item.is_available ? 'Available' : 'Out of Stock'}
+            {item.is_available ? t('menuItemCard.available', 'Available') : t('menuItemCard.outOfStock', 'Out of Stock')}
           </span>
           <button
             onClick={() => addToCart(item, 1)}
@@ -58,7 +60,7 @@ const MenuItemCard = ({ item }) => {
             }`}
           >
             <Plus className="h-4 w-4" />
-            <span>Add</span>
+            <span>{t('menuItemCard.add', 'Add')}</span>
           </button>
         </div>
       </div>

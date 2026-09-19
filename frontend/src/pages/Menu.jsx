@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import api from '../services/api';
 import MenuItemCard from '../components/MenuItemCard';
 import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
@@ -10,6 +11,7 @@ const Menu = () => {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('default');
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   // Load categories
   useEffect(() => {
@@ -72,8 +74,8 @@ const Menu = () => {
     <div className="space-y-12 pb-20 pt-10 px-6 max-w-7xl mx-auto">
       {/* Title */}
       <div className="text-center space-y-4">
-        <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">Le Menu</span>
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">Experience Our Menu</h1>
+        <span className="text-xs font-semibold tracking-widest text-amber-500 uppercase">{t('menu.smallTitle', 'Le Menu')}</span>
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">{t('menu.heading', 'Experience Our Menu')}</h1>
         <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto"></div>
       </div>
 
@@ -84,7 +86,7 @@ const Menu = () => {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-505" />
           <input
             type="text"
-            placeholder="Search gourmet dishes..."
+            placeholder={t('menu.placeholder', 'Search gourmet dishes...')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-charcoal-900 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
@@ -100,10 +102,10 @@ const Menu = () => {
               onChange={handleSort}
               className="bg-transparent text-sm text-gray-300 focus:outline-none cursor-pointer"
             >
-              <option value="default" className="bg-charcoal-900 text-white">Default Sorting</option>
-              <option value="price-low" className="bg-charcoal-900 text-white">Price: Low to High</option>
-              <option value="price-high" className="bg-charcoal-900 text-white">Price: High to Low</option>
-              <option value="name" className="bg-charcoal-900 text-white">Name: A to Z</option>
+              <option value="default" className="bg-charcoal-900 text-white">{t('menu.defaultSorting', 'Default Sorting')}</option>
+              <option value="price-low" className="bg-charcoal-900 text-white">{t('menu.priceLow', 'Price: Low to High')}</option>
+              <option value="price-high" className="bg-charcoal-900 text-white">{t('menu.priceHigh', 'Price: High to Low')}</option>
+              <option value="name" className="bg-charcoal-900 text-white">{t('menu.nameSort', 'Name: A to Z')}</option>
             </select>
           </div>
         </div>
@@ -119,7 +121,7 @@ const Menu = () => {
               : 'bg-charcoal-900/50 border-white/10 text-gray-400 hover:border-amber-500/30 hover:text-white'
           }`}
         >
-          All Items
+          {t('menu.allItems', 'All Items')}
         </button>
         {categories.map((cat) => (
           <button
@@ -144,8 +146,8 @@ const Menu = () => {
       ) : sortedItems.length === 0 ? (
         <div className="glassmorphism p-12 text-center rounded-3xl max-w-lg mx-auto border border-white/5">
           <SlidersHorizontal className="h-10 w-10 text-gray-500 mx-auto mb-4" />
-          <h3 className="text-white font-serif text-lg font-bold mb-1">No Dishes Found</h3>
-          <p className="text-sm text-gray-400">Try modifying your search or changing the filter category.</p>
+          <h3 className="text-white font-serif text-lg font-bold mb-1">{t('menu.noResultsTitle', 'No Dishes Found')}</h3>
+          <p className="text-sm text-gray-400">{t('menu.noResultsDescription', 'Try modifying your search or changing the filter category.')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

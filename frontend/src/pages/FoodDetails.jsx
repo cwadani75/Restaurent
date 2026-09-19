@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import api from '../services/api';
 import { ShoppingBag, ChevronLeft, Plus, Minus, Star, Heart, Check } from 'lucide-react';
 
 const FoodDetails = () => {
+  const { t } = useLanguage();
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -49,18 +51,28 @@ const FoodDetails = () => {
   if (!item) {
     return (
       <div className="glassmorphism p-12 text-center rounded-3xl max-w-lg mx-auto my-12 border border-white/5">
-        <h3 className="text-white font-serif text-xl font-bold mb-1">Dish Not Found</h3>
-        <p className="text-sm text-gray-400 mb-6">The item you are looking for does not exist or has been removed.</p>
+        <h3 className="text-white font-serif text-xl font-bold mb-1">{t('foodDetails.dishNotFoundTitle', 'Dish Not Found')}</h3>
+        <p className="text-sm text-gray-400 mb-6">{t('foodDetails.dishNotFoundBody', 'The item you are looking for does not exist or has been removed.')}</p>
         <Link to="/menu" className="bg-amber-500 hover:bg-amber-600 text-charcoal-950 font-bold py-2.5 px-6 rounded-full transition-all">
-          Back to Menu
+          {t('foodDetails.backToMenu', 'Back to Menu')}
         </Link>
       </div>
     );
   }
 
   // Mocked rich detail parameters for premium presentation
-  const mockIngredients = ["Organic local produce", "House-made specialty reductions", "Traditional herbs & butter infusion", "Hand-selected spices"];
-  const mockNutrition = { calories: "320 kcal", protein: "14g", carbs: "22g", fat: "12g" };
+  const mockIngredients = [
+    t('foodDetails.ingredients.0', 'Organic local produce'),
+    t('foodDetails.ingredients.1', 'House-made specialty reductions'),
+    t('foodDetails.ingredients.2', 'Traditional herbs & butter infusion'),
+    t('foodDetails.ingredients.3', 'Hand-selected spices'),
+  ];
+  const mockNutrition = {
+    calories: '320 kcal',
+    protein: '14g',
+    carbs: '22g',
+    fat: '12g',
+  };
 
   return (
     <div className="space-y-12 pb-20 pt-6 px-6 max-w-7xl mx-auto">
@@ -71,7 +83,7 @@ const FoodDetails = () => {
           className="inline-flex items-center space-x-2 text-sm text-gray-400 hover:text-amber-500 transition-colors cursor-pointer"
         >
           <ChevronLeft className="h-4 w-4" />
-          <span>Back</span>
+          <span>{t('foodDetails.back', 'Back')}</span>
         </button>
       </div>
 
@@ -134,12 +146,12 @@ const FoodDetails = () => {
               {added ? (
                 <>
                   <Check className="h-4 w-4" />
-                  <span>Added to Cart!</span>
+                  <span>{t('foodDetails.addedToCart', 'Added to Cart!')}</span>
                 </>
               ) : (
                 <>
                   <ShoppingBag className="h-4 w-4" />
-                  <span>{item.is_available ? 'Add to Cart' : 'Out of Stock'}</span>
+                  <span>{item.is_available ? t('foodDetails.addToCart', 'Add to Cart') : t('foodDetails.outOfStock', 'Out of Stock')}</span>
                 </>
               )}
             </button>
@@ -150,18 +162,18 @@ const FoodDetails = () => {
           {/* Details Tabs (Ingredients, Nutrition) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
-              <h4 className="font-serif font-bold text-white text-md">Key Ingredients</h4>
+              <h4 className="font-serif font-bold text-white text-md">{t('foodDetails.keyIngredients', 'Key Ingredients')}</h4>
               <ul className="text-sm text-gray-400 space-y-1.5 list-disc pl-4">
                 {mockIngredients.map((ing, i) => <li key={i}>{ing}</li>)}
               </ul>
             </div>
             <div className="space-y-2">
-              <h4 className="font-serif font-bold text-white text-md">Nutrition Info</h4>
+              <h4 className="font-serif font-bold text-white text-md">{t('foodDetails.nutritionInfo', 'Nutrition Info')}</h4>
               <div className="grid grid-cols-2 gap-2 text-sm text-gray-400">
-                <div>Calories: <span className="text-white font-medium">{mockNutrition.calories}</span></div>
-                <div>Protein: <span className="text-white font-medium">{mockNutrition.protein}</span></div>
-                <div>Fat: <span className="text-white font-medium">{mockNutrition.fat}</span></div>
-                <div>Carbs: <span className="text-white font-medium">{mockNutrition.carbs}</span></div>
+                <div>{t('foodDetails.nutritionLabels.calories', 'Calories')}: <span className="text-white font-medium">{mockNutrition.calories}</span></div>
+                <div>{t('foodDetails.nutritionLabels.protein', 'Protein')}: <span className="text-white font-medium">{mockNutrition.protein}</span></div>
+                <div>{t('foodDetails.nutritionLabels.fat', 'Fat')}: <span className="text-white font-medium">{mockNutrition.fat}</span></div>
+                <div>{t('foodDetails.nutritionLabels.carbs', 'Carbs')}: <span className="text-white font-medium">{mockNutrition.carbs}</span></div>
               </div>
             </div>
           </div>
